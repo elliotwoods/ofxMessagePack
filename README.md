@@ -32,8 +32,11 @@ ofxMessagePack::Unpacker::setBuffer(buffer);
 If you want to use MessagePack with custom data types (e.g. your own classes), then you need to add a line to your class definition, e.g.:
 
 ```cpp
-class MyPoint : public ofVec2f {
+class MyPoint {
 public:
+  float x;
+  float y;
+  
   MSGPACK_DEFINE(x, y)
 };
 ```
