@@ -5,7 +5,7 @@
 namespace ofxMessagePack {
 	//----------
 	Unpacker::Unpacker() {
-		this->hasObjectReady = false;
+		this->hasMessageReady = false;
 	}
 	
 	//----------
@@ -25,6 +25,11 @@ namespace ofxMessagePack {
 			file.close();
 			return false;
 		}
+	}
+
+	//----------
+	bool Unpacker::isMessageReady() const {
+		return this->hasMessageReady;
 	}
 	
 	//----------
@@ -50,9 +55,9 @@ namespace ofxMessagePack {
 	//----------
 	void Unpacker::moveToNextMessage() {
 		if (this->unpacker.next(& this->message)) {
-			this->hasObjectReady = true;
+			this->hasMessageReady = true;
 		} else {
-			this->hasObjectReady = false;
+			this->hasMessageReady = false;
 		}
 	}
 }

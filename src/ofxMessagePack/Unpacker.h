@@ -11,7 +11,7 @@ namespace ofxMessagePack {
 		
 		template<typename T>
 		Unpacker & operator>>(T & object) {
-			if (this->hasObjectReady) {
+			if (this->hasMessageReady) {
 				this->message.get().convert(& object);
 				this->moveToNextMessage();
 			} else {
@@ -20,11 +20,12 @@ namespace ofxMessagePack {
 			return *this;
 		}
 		
-		bool operator()() {
-			return this->hasObjectReady;
+		bool operator bool()() {
+			return this->isMessageReady();
 		}
 		
 		bool load(string filename);
+		bool isMessageReady() const;
 		
 		ofBuffer getBuffer() const override;
 		void setBuffer(const ofBuffer &);
@@ -34,6 +35,6 @@ namespace ofxMessagePack {
 	protected:
 		msgpack::unpacker unpacker;
 		msgpack::unpacked message;
-		bool hasObjectReady;
+		bool hasMessageReady;
 	};
 }
