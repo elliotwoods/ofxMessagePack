@@ -20,7 +20,7 @@ namespace ofxMessagePack {
 			return *this;
 		}
 		
-		bool operator bool()() {
+		operator bool() {
 			return this->isMessageReady();
 		}
 		
