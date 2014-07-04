@@ -19,7 +19,7 @@ void ofApp::draw(){
 	for(auto point : this->points) {
 		ofPushStyle();
 		ofColor color(200, 100, 100);
-		color.setHueAngle(fmod(point.first * 30.0f, 360.0f));
+		color.setHue(fmod(point.first * 30.0f, 255.0f));
 		ofSetColor(color);
 		ofCircle(point.second, 10.0f);
 		ofPopStyle();

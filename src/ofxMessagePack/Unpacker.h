@@ -14,7 +14,10 @@ namespace ofxMessagePack {
 			if (this->hasObjectReady) {
 				this->message.get().convert(& object);
 				this->moveToNextMessage();
+			} else {
+				ofLogError("ofxMessagePack::Unpacker") << "Cannot unpack message, no message left in buffer";
 			}
+			return *this;
 		}
 		
 		bool operator()() {

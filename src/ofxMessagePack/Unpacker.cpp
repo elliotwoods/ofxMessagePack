@@ -35,6 +35,8 @@ namespace ofxMessagePack {
 		auto & constUnpacker = const_cast<msgpack::unpacker &>(this->unpacker);
 		
 		buffer.set(constUnpacker.buffer(), this->unpacker.buffer_capacity());
+
+		return buffer;
 	}
 	
 	//----------

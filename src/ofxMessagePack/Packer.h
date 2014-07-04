@@ -12,6 +12,7 @@ namespace ofxMessagePack {
 		template<typename T>
 		Packer & operator<<(T & object) {
 			this->packer.pack(object);
+			return * this;
 		}
 		
 		bool save(string filename) const;
