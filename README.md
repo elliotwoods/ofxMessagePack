@@ -43,7 +43,7 @@ public:
 
 Notice how the fields `x` and `y` are explicitly declared to MessagePack.
 
-Generally MessagePack can natively serialise/deserialise the usual types (`int`, `double`, `bool`, `string`, etc) and can also handle containers (`vector`, `map`, etc).
+Generally MessagePack can natively serialise/deserialise the usual types (`int`, `double`, `bool`, `string`, etc) and can also handle containers (`vector`, `map`, etc. For everything else, use `MSGPACK_DEFINE(…)`.
 
 Note
 ----
