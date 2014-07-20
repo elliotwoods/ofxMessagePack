@@ -25,8 +25,12 @@ unpacker >> myObjectThatIWantToPack;
 If you don't want to use files (e.g. you're sending via network), then you can use:
 
 ```cpp
-auto buffer = ofxMessagePack::Packer::getBuffer();
-ofxMessagePack::Unpacker::setBuffer(buffer);
+ofxMessagePack::Packer packer;
+...
+ofBuffer buffer = packer.getBuffer();
+...
+ofxMessagePack::Unpacker unpacker;
+unpacker.setBuffer(buffer);
 ```
 
 If you want to use MessagePack with custom data types (e.g. your own classes), then you need to add a line to your class definition, e.g.:
