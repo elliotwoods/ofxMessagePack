@@ -61,7 +61,7 @@
     <Import Project="..\..\..\addons\ofxCvGui2\ofxCvGuiLib\ofxCvGui.props" />
     <Import Project="..\..\..\addons\ofxCvMin\ofxCvMinLib\ofxCvMin.props" />
     <Import Project="..\..\..\addons\ofxDigitalEmulsion\ofxDigitalEmulsion.props" />
-    <Import Project="..\..\..\libs\openFrameworksCompiled\project\vs\openFrameworksRelease64.props" />
+    <Import Project="..\..\..\libs\openFrameworksCompiled\project\vs\openFrameworksRelease.props" />
     <Import Project="..\..\..\addons\ofxNonLinearFit\ofxNonLinearFit64.props" />
   </ImportGroup>
   <ImportGroup Condition="'$(Configuration)|$(Platform)'=='Debug|Win32'" Label="PropertySheets">
@@ -77,7 +77,7 @@
     <Import Project="..\..\..\addons\ofxCvGui2\ofxCvGuiLib\ofxCvGui.props" />
     <Import Project="..\..\..\addons\ofxCvMin\ofxCvMinLib\ofxCvMin.props" />
     <Import Project="..\..\..\addons\ofxDigitalEmulsion\ofxDigitalEmulsion.props" />
-    <Import Project="..\..\..\libs\openFrameworksCompiled\project\vs\openFrameworksDebug64.props" />
+    <Import Project="..\..\..\libs\openFrameworksCompiled\project\vs\openFrameworksDebug.props" />
     <Import Project="..\..\..\addons\ofxNonLinearFit\ofxNonLinearFit64.props" />
   </ImportGroup>
   <PropertyGroup Label="UserMacros" />
