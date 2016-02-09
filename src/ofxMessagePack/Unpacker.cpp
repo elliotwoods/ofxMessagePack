@@ -7,6 +7,18 @@ namespace ofxMessagePack {
 	Unpacker::Unpacker() {
 		this->hasMessageReady = false;
 	}
+    
+    //----------
+    template<typename T>
+    Unpacker & Unpacker::operator>>(T & object) {
+        if (this->hasMessageReady) {
+            this->message.get().convert(& object);
+            this->moveToNextMessage();
+        } else {
+            ofLogError("ofxMessagePack::Unpacker") << "Cannot unpack message, no message left in buffer";
+        }
+        return *this;
+    }
 	
 	//----------
 	bool Unpacker::load(string filename) {

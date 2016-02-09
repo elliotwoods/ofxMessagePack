@@ -10,15 +10,7 @@ namespace ofxMessagePack {
 		Unpacker();
 		
 		template<typename T>
-		Unpacker & operator>>(T & object) {
-			if (this->hasMessageReady) {
-				this->message.get().convert(& object);
-				this->moveToNextMessage();
-			} else {
-				ofLogError("ofxMessagePack::Unpacker") << "Cannot unpack message, no message left in buffer";
-			}
-			return *this;
-		}
+        Unpacker & operator>>(T & object);
 		
 		operator bool() {
 			return this->isMessageReady();
