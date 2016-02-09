@@ -1,5 +1,6 @@
 #pragma once
 
+#include "ofLog.h"
 #include "Stream.h"
 
 #include "msgpack.hpp"

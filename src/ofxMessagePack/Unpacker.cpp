@@ -7,7 +7,7 @@ namespace ofxMessagePack {
 	Unpacker::Unpacker() {
 		this->hasMessageReady = false;
 	}
-	
+		
 	//----------
 	bool Unpacker::load(string filename) {
 		ifstream file;
