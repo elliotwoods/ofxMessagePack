@@ -10,7 +10,7 @@ namespace ofxMessagePack {
 		Unpacker();
 		
 		template<typename T>
-        Unpacker & operator>>(T & object);
+		Unpacker & operator>>(T & object);
 		
 		operator bool() {
 			return this->isMessageReady();
