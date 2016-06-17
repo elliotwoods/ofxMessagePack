@@ -54,7 +54,7 @@ namespace ofxMessagePack {
 	
 	//----------
 	void Unpacker::moveToNextMessage() {
-		if (this->unpacker.next(& this->message)) {
+		if (this->unpacker.next(this->message)) {
 			this->hasMessageReady = true;
 		} else {
 			this->hasMessageReady = false;
