@@ -151,7 +151,7 @@ static inline int template_callback_int64(unpack_user* u, int64_t d, msgpack_obj
 static inline int template_callback_float(unpack_user* u, float d, msgpack_object* o)
 {
     MSGPACK_UNUSED(u);
-    o->type = MSGPACK_OBJECT_FLOAT;
+    o->type = MSGPACK_OBJECT_FLOAT32;
     o->via.f64 = d;
     return 0;
 }
@@ -159,7 +159,7 @@ static inline int template_callback_float(unpack_user* u, float d, msgpack_objec
 static inline int template_callback_double(unpack_user* u, double d, msgpack_object* o)
 {
     MSGPACK_UNUSED(u);
-    o->type = MSGPACK_OBJECT_FLOAT;
+    o->type = MSGPACK_OBJECT_FLOAT64;
     o->via.f64 = d;
     return 0;
 }
@@ -189,10 +189,16 @@ static inline int template_callback_false(unpack_user* u, msgpack_object* o)
 
 static inline int template_callback_array(unpack_user* u, unsigned int n, msgpack_object* o)
 {
+    unsigned int size;
     o->type = MSGPACK_OBJECT_ARRAY;
     o->via.array.size = 0;
-    o->via.array.ptr = (msgpack_object*)msgpack_zone_malloc(u->z, n*sizeof(msgpack_object));
-    if(o->via.array.ptr == NULL) { return -1; }
+    size = n*sizeof(msgpack_object);
+    if (size / sizeof(msgpack_object) != n) {
+        // integer overflow
+        return MSGPACK_UNPACK_NOMEM_ERROR;
+    }
+    o->via.array.ptr = (msgpack_object*)msgpack_zone_malloc(u->z, size);
+    if(o->via.array.ptr == NULL) { return MSGPACK_UNPACK_NOMEM_ERROR; }
     return 0;
 }
 
@@ -210,10 +216,16 @@ static inline int template_callback_array_item(unpack_user* u, msgpack_object* c
 
 static inline int template_callback_map(unpack_user* u, unsigned int n, msgpack_object* o)
 {
+    unsigned int size;
     o->type = MSGPACK_OBJECT_MAP;
     o->via.map.size = 0;
-    o->via.map.ptr = (msgpack_object_kv*)msgpack_zone_malloc(u->z, n*sizeof(msgpack_object_kv));
-    if(o->via.map.ptr == NULL) { return -1; }
+    size = n*sizeof(msgpack_object_kv);
+    if (size / sizeof(msgpack_object_kv) != n) {
+        // integer overflow
+        return MSGPACK_UNPACK_NOMEM_ERROR;
+    }
+    o->via.map.ptr = (msgpack_object_kv*)msgpack_zone_malloc(u->z, size);
+    if(o->via.map.ptr == NULL) { return MSGPACK_UNPACK_NOMEM_ERROR; }
     return 0;
 }
 
@@ -255,6 +267,9 @@ static inline int template_callback_bin(unpack_user* u, const char* b, const cha
 
 static inline int template_callback_ext(unpack_user* u, const char* b, const char* p, unsigned int l, msgpack_object* o)
 {
+    if (l == 0) {
+        return MSGPACK_UNPACK_PARSE_ERROR;
+    }
     MSGPACK_UNUSED(u);
     MSGPACK_UNUSED(b);
     o->type = MSGPACK_OBJECT_EXT;
@@ -510,7 +525,8 @@ void msgpack_unpacker_reset(msgpack_unpacker* mpac)
     mpac->parsed = 0;
 }
 
-msgpack_unpack_return msgpack_unpacker_next(msgpack_unpacker* mpac, msgpack_unpacked* result)
+static inline msgpack_unpack_return unpacker_next(msgpack_unpacker* mpac,
+                                                  msgpack_unpacked* result)
 {
     int ret;
 
@@ -521,7 +537,7 @@ msgpack_unpack_return msgpack_unpacker_next(msgpack_unpacker* mpac, msgpack_unpa
     if(ret < 0) {
         result->zone = NULL;
         memset(&result->data, 0, sizeof(msgpack_object));
-        return MSGPACK_UNPACK_PARSE_ERROR;
+        return ret;
     }
 
     if(ret == 0) {
@@ -529,11 +545,40 @@ msgpack_unpack_return msgpack_unpacker_next(msgpack_unpacker* mpac, msgpack_unpa
     }
     result->zone = msgpack_unpacker_release_zone(mpac);
     result->data = msgpack_unpacker_data(mpac);
-    msgpack_unpacker_reset(mpac);
 
     return MSGPACK_UNPACK_SUCCESS;
 }
 
+msgpack_unpack_return msgpack_unpacker_next(msgpack_unpacker* mpac,
+                                            msgpack_unpacked* result)
+{
+    int ret;
+
+    ret = unpacker_next(mpac, result);
+    if (ret == MSGPACK_UNPACK_SUCCESS) {
+        msgpack_unpacker_reset(mpac);
+    }
+
+    return ret;
+}
+
+msgpack_unpack_return
+msgpack_unpacker_next_with_size(msgpack_unpacker* mpac,
+                                msgpack_unpacked* result, size_t *p_bytes)
+{
+    int ret;
+
+    ret = unpacker_next(mpac, result);
+    if (ret == MSGPACK_UNPACK_SUCCESS || ret == MSGPACK_UNPACK_CONTINUE) {
+        *p_bytes = mpac->parsed;
+    }
+
+    if (ret == MSGPACK_UNPACK_SUCCESS) {
+        msgpack_unpacker_reset(mpac);
+    }
+
+    return ret;
+}
 
 msgpack_unpack_return
 msgpack_unpack(const char* data, size_t len, size_t* off,
@@ -556,7 +601,7 @@ msgpack_unpack(const char* data, size_t len, size_t* off,
 
         e = template_execute(&ctx, data, len, &noff);
         if(e < 0) {
-            return MSGPACK_UNPACK_PARSE_ERROR;
+            return e;
         }
 
         if(off != NULL) { *off = noff; }
@@ -607,7 +652,7 @@ msgpack_unpack_next(msgpack_unpacked* result,
         if(e < 0) {
             msgpack_zone_free(result->zone);
             result->zone = NULL;
-            return MSGPACK_UNPACK_PARSE_ERROR;
+            return e;
         }
 
 

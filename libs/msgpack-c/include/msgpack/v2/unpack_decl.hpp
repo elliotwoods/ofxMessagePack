@@ -87,14 +87,6 @@ class unpacker;
 template <typename unpack_visitor, typename referenced_buffer_hook>
 class basic_unpacker;
 
-typedef enum unpack_return {
-    UNPACK_SUCCESS      = v1::UNPACK_SUCCESS,
-    UNPACK_EXTRA_BYTES  = v1::UNPACK_EXTRA_BYTES,
-    UNPACK_CONTINUE     = v1::UNPACK_CONTINUE,
-    UNPACK_PARSE_ERROR  = v1::UNPACK_PARSE_ERROR,
-    UNPACK_STOP_VISITOR = -2
-} unpack_return;
-
 /// Unpack msgpack::object from a buffer.
 /**
  * @param data The pointer to the buffer.
@@ -110,7 +102,7 @@ typedef enum unpack_return {
  */
 object_handle unpack(
     const char* data, std::size_t len, std::size_t& off, bool& referenced,
-    unpack_reference_func f = nullptr, void* user_data = nullptr, unpack_limit const& limit = unpack_limit());
+    unpack_reference_func f = MSGPACK_NULLPTR, void* user_data = MSGPACK_NULLPTR, unpack_limit const& limit = unpack_limit());
 
 /// Unpack msgpack::object from a buffer.
 /**
@@ -126,7 +118,7 @@ object_handle unpack(
  */
 object_handle unpack(
     const char* data, std::size_t len, std::size_t& off,
-    unpack_reference_func f = nullptr, void* user_data = nullptr, unpack_limit const& limit = unpack_limit());
+    unpack_reference_func f = MSGPACK_NULLPTR, void* user_data = MSGPACK_NULLPTR, unpack_limit const& limit = unpack_limit());
 
 /// Unpack msgpack::object from a buffer.
 /**
@@ -142,7 +134,7 @@ object_handle unpack(
  */
 object_handle unpack(
     const char* data, std::size_t len, bool& referenced,
-    unpack_reference_func f = nullptr, void* user_data = nullptr, unpack_limit const& limit = unpack_limit());
+    unpack_reference_func f = MSGPACK_NULLPTR, void* user_data = MSGPACK_NULLPTR, unpack_limit const& limit = unpack_limit());
 
 /// Unpack msgpack::object from a buffer.
 /**
@@ -157,7 +149,7 @@ object_handle unpack(
  */
 object_handle unpack(
     const char* data, std::size_t len,
-    unpack_reference_func f = nullptr, void* user_data = nullptr, unpack_limit const& limit = unpack_limit());
+    unpack_reference_func f = MSGPACK_NULLPTR, void* user_data = MSGPACK_NULLPTR, unpack_limit const& limit = unpack_limit());
 
 
 /// Unpack msgpack::object from a buffer.
@@ -176,7 +168,7 @@ object_handle unpack(
 void unpack(
     object_handle& result,
     const char* data, std::size_t len, std::size_t& off, bool& referenced,
-    unpack_reference_func f = nullptr, void* user_data = nullptr, unpack_limit const& limit = unpack_limit());
+    unpack_reference_func f = MSGPACK_NULLPTR, void* user_data = MSGPACK_NULLPTR, unpack_limit const& limit = unpack_limit());
 
 /// Unpack msgpack::object from a buffer.
 /**
@@ -193,7 +185,7 @@ void unpack(
 void unpack(
     object_handle& result,
     const char* data, std::size_t len, std::size_t& off,
-    unpack_reference_func f = nullptr, void* user_data = nullptr, unpack_limit const& limit = unpack_limit());
+    unpack_reference_func f = MSGPACK_NULLPTR, void* user_data = MSGPACK_NULLPTR, unpack_limit const& limit = unpack_limit());
 
 /// Unpack msgpack::object from a buffer.
 /**
@@ -210,7 +202,7 @@ void unpack(
 void unpack(
     object_handle& result,
     const char* data, std::size_t len, bool& referenced,
-    unpack_reference_func f = nullptr, void* user_data = nullptr, unpack_limit const& limit = unpack_limit());
+    unpack_reference_func f = MSGPACK_NULLPTR, void* user_data = MSGPACK_NULLPTR, unpack_limit const& limit = unpack_limit());
 
 /// Unpack msgpack::object from a buffer.
 /**
@@ -226,7 +218,7 @@ void unpack(
 void unpack(
     object_handle& result,
     const char* data, std::size_t len,
-    unpack_reference_func f = nullptr, void* user_data = nullptr, unpack_limit const& limit = unpack_limit());
+    unpack_reference_func f = MSGPACK_NULLPTR, void* user_data = MSGPACK_NULLPTR, unpack_limit const& limit = unpack_limit());
 
 /// Unpack msgpack::object from a buffer.
 /**
@@ -245,7 +237,7 @@ void unpack(
 msgpack::object unpack(
     msgpack::zone& z,
     const char* data, std::size_t len, std::size_t& off, bool& referenced,
-    unpack_reference_func f = nullptr, void* user_data = nullptr, unpack_limit const& limit = unpack_limit());
+    unpack_reference_func f = MSGPACK_NULLPTR, void* user_data = MSGPACK_NULLPTR, unpack_limit const& limit = unpack_limit());
 
 /// Unpack msgpack::object from a buffer.
 /**
@@ -263,7 +255,7 @@ msgpack::object unpack(
 msgpack::object unpack(
     msgpack::zone& z,
     const char* data, std::size_t len, std::size_t& off,
-    unpack_reference_func f = nullptr, void* user_data = nullptr, unpack_limit const& limit = unpack_limit());
+    unpack_reference_func f = MSGPACK_NULLPTR, void* user_data = MSGPACK_NULLPTR, unpack_limit const& limit = unpack_limit());
 
 /// Unpack msgpack::object from a buffer.
 /**
@@ -281,7 +273,7 @@ msgpack::object unpack(
 msgpack::object unpack(
     msgpack::zone& z,
     const char* data, std::size_t len, bool& referenced,
-    unpack_reference_func f = nullptr, void* user_data = nullptr, unpack_limit const& limit = unpack_limit());
+    unpack_reference_func f = MSGPACK_NULLPTR, void* user_data = MSGPACK_NULLPTR, unpack_limit const& limit = unpack_limit());
 
 /// Unpack msgpack::object from a buffer.
 /**
@@ -298,7 +290,7 @@ msgpack::object unpack(
 msgpack::object unpack(
     msgpack::zone& z,
     const char* data, std::size_t len,
-    unpack_reference_func f = nullptr, void* user_data = nullptr, unpack_limit const& limit = unpack_limit());
+    unpack_reference_func f = MSGPACK_NULLPTR, void* user_data = MSGPACK_NULLPTR, unpack_limit const& limit = unpack_limit());
 
 /// Unpack msgpack formatted data via a visitor
 /**
@@ -327,14 +319,14 @@ bool parse(const char* data, size_t len, Visitor& v);
 
 namespace detail {
 
-unpack_return
+parse_return
 unpack_imp(const char* data, std::size_t len, std::size_t& off,
            msgpack::zone& result_zone, msgpack::object& result, bool& referenced,
            unpack_reference_func f, void* user_data,
            unpack_limit const& limit);
 
 template <typename UnpackVisitor>
-unpack_return
+parse_return
 parse_imp(const char* data, size_t len, size_t& off, UnpackVisitor& v);
 
 } // detail

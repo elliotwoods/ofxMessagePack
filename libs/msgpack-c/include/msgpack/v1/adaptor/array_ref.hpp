@@ -26,7 +26,7 @@ namespace type {
 
 template <typename T>
 struct array_ref {
-    array_ref() : data(nullptr) {}
+    array_ref() : data(MSGPACK_NULLPTR) {}
     array_ref(T& t) : data(&t) {}
 
     T* data;
@@ -67,7 +67,7 @@ struct array_ref {
 
 template <typename T, std::size_t N>
 struct array_ref<T[N]> {
-    array_ref() : data(nullptr) {}
+    array_ref() : data(MSGPACK_NULLPTR) {}
     array_ref(T(&t)[N]) : data(t) {}
 
     T* data;
@@ -248,25 +248,25 @@ struct object_with_zone<msgpack::type::array_ref<T> > {
         if (!v.data) { throw msgpack::type_error(); }
         o.type = msgpack::type::ARRAY;
         if (v.data->empty()) {
-            o.via.array.ptr = nullptr;
+            o.via.array.ptr = MSGPACK_NULLPTR;
             o.via.array.size = 0;
         }
         else {
             uint32_t size = checked_get_container_size(v.size());
-            msgpack::object* p = static_cast<msgpack::object*>(o.zone.allocate_align(sizeof(msgpack::object)*size));
+            msgpack::object* p = static_cast<msgpack::object*>(o.zone.allocate_align(sizeof(msgpack::object)*size, MSGPACK_ZONE_ALIGNOF(msgpack::object)));
             msgpack::object* const pend = p + size;
             o.via.array.ptr = p;
             o.via.array.size = size;
             typename T::const_iterator it(v.data->begin());
             do {
-#if (__GNUC__ > 4 || (__GNUC__ == 4 && __GNUC_MINOR__ >= 6)) && !defined(__clang__)
+#if (__GNUC__ > 4 || (__GNUC__ == 4 && __GNUC_MINOR__ >= 7)) && !defined(__clang__)
 #pragma GCC diagnostic push
 #pragma GCC diagnostic ignored "-Wmaybe-uninitialized"
-#endif // (__GNUC__ > 4 || (__GNUC__ == 4 && __GNUC_MINOR__ >= 6)) && !defined(__clang__)
+#endif // (__GNUC__ > 4 || (__GNUC__ == 4 && __GNUC_MINOR__ >= 7)) && !defined(__clang__)
                 *p = msgpack::object(*it, o.zone);
-#if (__GNUC__ > 4 || (__GNUC__ == 4 && __GNUC_MINOR__ >= 6)) && !defined(__clang__)
+#if (__GNUC__ > 4 || (__GNUC__ == 4 && __GNUC_MINOR__ >= 7)) && !defined(__clang__)
 #pragma GCC diagnostic pop
-#endif // (__GNUC__ > 4 || (__GNUC__ == 4 && __GNUC_MINOR__ >= 6)) && !defined(__clang__)
+#endif // (__GNUC__ > 4 || (__GNUC__ == 4 && __GNUC_MINOR__ >= 7)) && !defined(__clang__)
                 ++p;
                 ++it;
             } while(p < pend);
@@ -280,7 +280,7 @@ struct object_with_zone<msgpack::type::array_ref<T[N]> > {
         if (!v.data) { throw msgpack::type_error(); }
         o.type = msgpack::type::ARRAY;
         uint32_t size = checked_get_container_size(v.size());
-        msgpack::object* p = static_cast<msgpack::object*>(o.zone.allocate_align(sizeof(msgpack::object)*size));
+        msgpack::object* p = static_cast<msgpack::object*>(o.zone.allocate_align(sizeof(msgpack::object)*size, MSGPACK_ZONE_ALIGNOF(msgpack::object)));
         msgpack::object* const pend = p + size;
         o.via.array.ptr = p;
         o.via.array.size = size;
