@@ -25,7 +25,7 @@ namespace ofxMessagePack {
 			return this->isMessageReady();
 		}
 		
-		bool load(string filename);
+        bool load(std::string filename);
 		bool isMessageReady() const;
 		
 		ofBuffer getBuffer() const override;

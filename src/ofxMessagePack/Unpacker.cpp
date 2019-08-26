@@ -2,6 +2,8 @@
 
 #include "ofUtils.h"
 
+using namespace std;
+
 namespace ofxMessagePack {
 	//----------
 	Unpacker::Unpacker() {

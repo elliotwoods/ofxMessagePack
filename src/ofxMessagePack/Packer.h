@@ -15,7 +15,7 @@ namespace ofxMessagePack {
 			return * this;
 		}
 		
-		bool save(string filename) const;
+        bool save(std::string filename) const;
 		
 		ofBuffer getBuffer() const override;
 	protected:
