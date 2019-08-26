@@ -1,5 +1,6 @@
 #include "Packer.h"
 #include "ofUtils.h"
+#include "ofLog.h"
 
 namespace ofxMessagePack {
 	//----------
@@ -8,9 +9,9 @@ namespace ofxMessagePack {
 	}
 	
 	//----------
-	bool Packer::save(string filename) const {
-		ofstream file;
-		file.open(ofToDataPath(filename).c_str(), ios::out | ios::binary);
+    bool Packer::save(std::string filename) const {
+		std::ofstream file;
+		file.open(ofToDataPath(filename).c_str(), std::ios::out | std::ios::binary);
 		try {
 			if (file.fail()) {
 				return false;

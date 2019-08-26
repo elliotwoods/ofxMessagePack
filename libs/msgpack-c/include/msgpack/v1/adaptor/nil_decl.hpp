@@ -23,6 +23,8 @@ namespace type {
 
 struct nil_t;
 
+#define MSGPACK_DISABLE_LEGACY_NIL
+    
 #if !defined(MSGPACK_DISABLE_LEGACY_NIL)
 
 typedef nil_t nil;

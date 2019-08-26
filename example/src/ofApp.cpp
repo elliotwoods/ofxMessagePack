@@ -21,7 +21,7 @@ void ofApp::draw(){
 		ofColor color(200, 100, 100);
 		color.setHue(fmod(point.first * 30.0f, 255.0f));
 		ofSetColor(color);
-		ofCircle(point.second, 10.0f);
+		ofDrawCircle(point.second, 10.0f);
 		ofPopStyle();
 	}
 }
