@@ -49,7 +49,7 @@ namespace ofxMessagePack {
 	//----------
 	void Unpacker::setBuffer(const ofBuffer & buffer) {
 		this->unpacker.reserve_buffer(buffer.size());
-		memcpy(unpacker.buffer(), buffer.getBinaryBuffer(), buffer.size());
+		memcpy(unpacker.buffer(), buffer.getData(), buffer.size());
 		this->unpacker.buffer_consumed(buffer.size());
 		this->moveToNextMessage();
 	}
