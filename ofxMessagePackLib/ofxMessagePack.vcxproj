@@ -21,11 +21,18 @@
   <ItemGroup>
     <ClInclude Include="..\src\ofxMessagePack.h" />
     <ClInclude Include="..\src\ofxMessagePack\Packer.h" />
+    <ClInclude Include="..\src\ofxMessagePack\SerialStream.h" />
     <ClInclude Include="..\src\ofxMessagePack\Stream.h" />
     <ClInclude Include="..\src\ofxMessagePack\Unpacker.h" />
   </ItemGroup>
   <ItemGroup>
+    <ClCompile Include="..\libs\msgpack-c\src\objectc.c" />
+    <ClCompile Include="..\libs\msgpack-c\src\unpack.c" />
+    <ClCompile Include="..\libs\msgpack-c\src\version.c" />
+    <ClCompile Include="..\libs\msgpack-c\src\vrefbuffer.c" />
+    <ClCompile Include="..\libs\msgpack-c\src\zone.c" />
     <ClCompile Include="..\src\ofxMessagePack\Packer.cpp" />
+    <ClCompile Include="..\src\ofxMessagePack\SerialStream.cpp" />
     <ClCompile Include="..\src\ofxMessagePack\Stream.cpp" />
     <ClCompile Include="..\src\ofxMessagePack\Unpacker.cpp" />
   </ItemGroup>

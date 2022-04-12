@@ -7,6 +7,15 @@
     <Filter Include="src\ofxMessagePack">
       <UniqueIdentifier>{2ff2ee4b-c525-4d05-b8e8-7e16b30ad11b}</UniqueIdentifier>
     </Filter>
+    <Filter Include="libs">
+      <UniqueIdentifier>{c3670e39-8c3d-4bc3-b4a9-3438e9600079}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="libs\msgpack-c">
+      <UniqueIdentifier>{5f4283e9-04b5-4f91-86af-f002276692d9}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="libs\msgpack-c\src">
+      <UniqueIdentifier>{3c8207a9-9adb-49d0-8604-4668ba82722c}</UniqueIdentifier>
+    </Filter>
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="..\src\ofxMessagePack.h">
@@ -21,6 +30,9 @@
     <ClInclude Include="..\src\ofxMessagePack\Unpacker.h">
       <Filter>src\ofxMessagePack</Filter>
     </ClInclude>
+    <ClInclude Include="..\src\ofxMessagePack\SerialStream.h">
+      <Filter>src\ofxMessagePack</Filter>
+    </ClInclude>
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="..\src\ofxMessagePack\Packer.cpp">
@@ -30,6 +42,24 @@
       <Filter>src\ofxMessagePack</Filter>
     </ClCompile>
     <ClCompile Include="..\src\ofxMessagePack\Unpacker.cpp">
+      <Filter>src\ofxMessagePack</Filter>
+    </ClCompile>
+    <ClCompile Include="..\libs\msgpack-c\src\version.c">
+      <Filter>libs\msgpack-c\src</Filter>
+    </ClCompile>
+    <ClCompile Include="..\libs\msgpack-c\src\vrefbuffer.c">
+      <Filter>libs\msgpack-c\src</Filter>
+    </ClCompile>
+    <ClCompile Include="..\libs\msgpack-c\src\zone.c">
+      <Filter>libs\msgpack-c\src</Filter>
+    </ClCompile>
+    <ClCompile Include="..\libs\msgpack-c\src\objectc.c">
+      <Filter>libs\msgpack-c\src</Filter>
+    </ClCompile>
+    <ClCompile Include="..\libs\msgpack-c\src\unpack.c">
+      <Filter>libs\msgpack-c\src</Filter>
+    </ClCompile>
+    <ClCompile Include="..\src\ofxMessagePack\SerialStream.cpp">
       <Filter>src\ofxMessagePack</Filter>
     </ClCompile>
   </ItemGroup>
